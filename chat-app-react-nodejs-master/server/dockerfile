@@ -1,0 +1,9 @@
+FROM node:14-alpine
+WORKDIR /server
+COPY package*.json ./
+RUN npm install
+RUN npm install redis
+ENV redis_password=psg8460887627
+COPY . .
+EXPOSE 5000
+ENTRYPOINT [ "npm","start" ]

@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      - DB_USERNAME=parshwa2001
+      - DB_PASSWORD=Psg8460887627
+    networks:
+      - backend_network
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "5004:5000"
+    depends_on:
+      - mongo
+      - redis
+    environment:
+      - DB_USERNAME=parshwa2001
+      - DB_PASSWORD=Psg8460887627
+    networks:
+      - backend_network
+
+  public:
+    build:
+      context: ./public
+      dockerfile: Dockerfile
+    ports:
+      - "3004:3000"
+    networks:
+      - frontend_network
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - backend_network
+
+networks:
+  backend_network:
+  frontend_network:
